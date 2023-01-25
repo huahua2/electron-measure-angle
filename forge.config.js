@@ -1,5 +1,7 @@
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    icon: './assets/icon'
+  },
   rebuildConfig: {},
   makers: [
     // {
@@ -8,12 +10,7 @@ module.exports = {
     // },
     {
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
-      config: {
-        // background: './assets/logo.png',
-        // format: 'ULFO',
-        icon: '/assets/logo.png',
-      }
+      platforms: ['darwin']
     },
     // {
     //   name: '@electron-forge/maker-dmg',
