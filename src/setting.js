@@ -87,30 +87,46 @@ opacityInput.addEventListener("input", (event) => {
 })
 
 inputColor1.addEventListener("input", (event) => {
-  console.log(event.target.value);
-  sendMsg({
-    lineColor1: event.target.value
-  })
-  chrome.storage.local.set({
-    object: {lineColor1: event.target.value },
-  }, function(){
-    console.log('lineColor1保存成功');
-  })
+  // console.log(event.target.value);
+  // sendMsg({
+  //   lineColor1: event.target.value
+  // })
+  // chrome.storage.local.set({
+  //   object: {lineColor1: event.target.value },
+  // }, function(){
+  //   console.log('lineColor1保存成功');
+  // })
+  if (event.target.value) {
+    changeLineColor(event.target.value)
+  }
+//   if (request.lineColor2) {
+//     changeLineColor2(request.lineColor2)
+//   }
 
 })
 inputColor2.addEventListener("input", (event) => {
-  console.log(event.target.value);
-  sendMsg({
-    lineColor2: event.target.value
-  })
-  chrome.storage.local.set({
-    object: {lineColor2: event.target.value },
-  }, function(){
-    console.log('lineColor2保存成功');
-  })
+  if (event.target.value) {
+    changeLineColor2(event.target.value)
+  }
+  // console.log(event.target.value);
+  // sendMsg({
+  //   lineColor2: event.target.value
+  // })
+  // chrome.storage.local.set({
+  //   object: {lineColor2: event.target.value },
+  // }, function(){
+  //   console.log('lineColor2保存成功');
+  // })
 
 })
 
+const inputAngle = document.querySelector("#inputAngle")
+inputAngle.addEventListener("input", (event) => {
+      let _line90 = document.querySelector('.line_90')
+    let _line270 = document.querySelector('.line_270')
+    setLinePositionByAngle({ curEle: _line90, oppositeEle: _line270, deg: Number(event.target.value) })
+
+  })
 
 function sendMsg (msg) {
   console.log('sendMsg')

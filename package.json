@@ -1,5 +1,5 @@
 {
-  "name": "electron-quick-start",
+  "name": "electron-measure-angle",
   "productName": "角度测量",
   "version": "1.0.0",
   "description": "A minimal Electron application",
@@ -17,8 +17,8 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "lghua",
+  "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.4",
     "@electron-forge/maker-deb": "^6.0.4",

@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu} = require('electron')
+const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
 
 Menu.setApplicationMenu(null)
@@ -21,7 +21,18 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
+
+
+  ipcMain.on('min', e=> mainWindow.minimize());
+  ipcMain.on('max', e=> {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize()
+    } else {
+      mainWindow.maximize()
+    }
+  });
+  ipcMain.on('close', e=> mainWindow.close());
 }
 
 // This method will be called when Electron has finished

@@ -3,6 +3,10 @@ let radius = 150
 // 90°在下面，false在上面
 const deg90InBottom = false
 
+// 外圈旋转度数
+let outCircleRotate = 0
+let curOutCircleRotate = 0
+
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //   if (request.radius) {
 //     radius = Number(request.radius)
@@ -31,7 +35,15 @@ const deg90InBottom = false
 // })
 
 function radian2Angle(radian) {
-  return radian * (deg90InBottom ? 180 : -180) / Math.PI
+  let deg = radian * (deg90InBottom ? 180 : -180) / Math.PI
+  // if (outCircleRotate > 0) {
+  if (deg90InBottom) {
+    deg -= outCircleRotate
+  } else {
+    deg += outCircleRotate
+  }
+  // }
+  return Number(deg).toFixed(2)
 }
 
 const calcStateRotation = (rotation) => {
@@ -87,6 +99,8 @@ function create() {
   style.innerHTML += sCss;
   measureAngle.className = 'measure-angle'
   measureAngle.style.appRegion = 'no-drag'
+  measureAngle.style.left = (window.innerWidth / 2 - radius) + 'px'
+  measureAngle.style.top = (window.innerHeight / 2 - radius) + 'px'
 
   document.head.appendChild(style);
   document.body.appendChild(measureAngle);
@@ -173,37 +187,77 @@ function setLinePositionByAngle ({ curEle, oppositeEle, deg}) {
 
 function bindMeasureAngleEvent() {
   let _dragEle = document.querySelector('.measure-angle')
-  let _act = false
+  let _actMove = false
+  let _actRotate = false
+  let style = {}
 
   const dragEnter = (e) => {
     if (e.type !== 'mousedown') {
       return
     }
-    const bcr = _dragEle.getBoundingClientRect()
-    _act = true
+
     // 按下位置
     const downX = e.clientX
     const downY = e.clientY
+    // _dragEle.style.transform = 'none'
+    const bcr = _dragEle.getBoundingClientRect()
+    style = { left: _dragEle.style.left.replace('px', ''), top: _dragEle.style.top.replace('px', '') }
+    const center = {x: bcr.left + bcr.width / 2, y: bcr.top + bcr.height / 2}
 
+    const dis = Math.sqrt((downX-center.x)*(downX-center.x) + (downY-center.y)*(downY-center.y));
+    if(dis <= radius - 50){
+      _actMove = true
+      console.log("yes move!");
+    }else{
+      _actRotate = true
+      const radian = Math.atan2(downY - center.y, downX - center.x)
+      let deg = radian * 180 / Math.PI
+      const curDeg = calcStateRotation(deg + 90)
+      curOutCircleRotate = curDeg
+      console.log("Oh, rotate!");
+    }
     document.onmousemove = (e) => {
-      if (!_act) {
+      if (!_dragEle) {
+        return;
+      }
+      if (!_actMove && !_actRotate) {
         return
       }
 
       // 移动当前元素
-      if (_dragEle) {
-        const left = e.clientX - downX + bcr.x
-        const top = e.clientY - downY + bcr.y
-        const bound = _dragEle.getBoundingClientRect()
-        const {width, height} = bound
+      if (_actMove) {
+        // const bound = _dragEle.getBoundingClientRect()
+        const left = e.clientX - downX + Number(style.left)
+        const top = e.clientY - downY + Number(style.top)
+        const {width, height} = bcr
         _dragEle.style.left = Math.min(Math.max(left, -(width / 2)), window.innerWidth - width / 2) + 'px'
         _dragEle.style.top = Math.min(Math.max(top, -(height / 2)), window.innerHeight - height / 2) + 'px'
-        _dragEle.style.transform = 'none'
+        //
+        // _dragEle.style.transform = `rotate(${outCircleRotate}deg)`
+      }
+      if (_actRotate) {
+        const downX = e.clientX
+        const downY = e.clientY
+
+        const radian = Math.atan2(downY - center.y, downX - center.x)
+
+        let deg = radian * 180 / Math.PI
+        const curDeg = calcStateRotation(deg + 90)
+        const delta = Math.abs(curOutCircleRotate - curDeg)
+        if (curOutCircleRotate < curDeg) {
+          outCircleRotate += delta
+        } else {
+          outCircleRotate -= delta
+        }
+        curOutCircleRotate = curDeg
+        outCircleRotate = Number(outCircleRotate)
+        _dragEle.style.transform = `rotate(${outCircleRotate}deg)`
       }
     }
 
     document.onmouseup = (e) => {
-      _act = false
+      _actMove = false
+      _actRotate = false
       clear()
     }
 
@@ -259,9 +313,8 @@ function changeLineColor2(color) {
 
 function resetPos () {
   let _dragEle = document.querySelector('.measure-angle')
-  _dragEle.style.left = '50%'
-  _dragEle.style.top = '50%'
-  _dragEle.style.transform = 'translate(-50%, -50%)'
+  _dragEle.style.left = (window.innerWidth / 2 - radius) + 'px'
+  _dragEle.style.top = (window.innerHeight / 2 - radius) + 'px'
 }
 
 create()
@@ -271,26 +324,4 @@ bindMeasureAngleEvent()
 window.addEventListener("resize", () => {
   resetPos()
 });
-// const dpr = window.devicePixelRatio
-// window.addEventListener("resize", () => {
-//   if (window.devicePixelRatio === dpr) {
-//     return
-//   }
-//   const aa = dpr - window.devicePixelRatio
-//   if (aa > 0){
-//     console.log('scaleValue', window.devicePixelRatio)
-//     let scale = 0
-//     if (aa < 0.5) {
-//       scale = 1 + aa
-//     } else {
-//       if (aa > 0.6) {
-//         scale = 2.5
-//       } else {
-//         scale = 2
-//       }
-//     }
-//     console.log('scale', scale)
-//     let _dragEle = document.querySelector('.measure-angle')
-//     _dragEle.style.transform = `scale(${scale})`
-//   }
-// });
+
