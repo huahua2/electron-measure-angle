@@ -5,7 +5,8 @@ const deg90InBottom = false
 
 // 外圈旋转度数
 let outCircleRotate = 0
-let curOutCircleRotate = 0
+let moveCenter = {x: 0, y: 0}
+
 
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //   if (request.radius) {
@@ -101,6 +102,8 @@ function create() {
   measureAngle.style.appRegion = 'no-drag'
   measureAngle.style.left = (window.innerWidth / 2 - radius) + 'px'
   measureAngle.style.top = (window.innerHeight / 2 - radius) + 'px'
+  moveCenter.x = window.innerWidth / 2
+  moveCenter.y = window.innerHeight / 2
 
   document.head.appendChild(style);
   document.body.appendChild(measureAngle);
@@ -190,6 +193,7 @@ function bindMeasureAngleEvent() {
   let _actMove = false
   let _actRotate = false
   let style = {}
+  let curOutCircleRotate = 0
 
   const dragEnter = (e) => {
     if (e.type !== 'mousedown') {
@@ -256,6 +260,15 @@ function bindMeasureAngleEvent() {
     }
 
     document.onmouseup = (e) => {
+      if (_actMove) {
+
+        const bcr = _dragEle.getBoundingClientRect()
+        // const center = {x: , y: bcr.top + bcr.height / 2
+        moveCenter.x = bcr.left + bcr.width / 2
+        moveCenter.y = bcr.top + bcr.height / 2
+      }
+
+
       _actMove = false
       _actRotate = false
       clear()
@@ -313,8 +326,8 @@ function changeLineColor2(color) {
 
 function resetPos () {
   let _dragEle = document.querySelector('.measure-angle')
-  _dragEle.style.left = (window.innerWidth / 2 - radius) + 'px'
-  _dragEle.style.top = (window.innerHeight / 2 - radius) + 'px'
+  _dragEle.style.left = Number(moveCenter.x - radius) + 'px'
+  _dragEle.style.top = Number(moveCenter.y - radius) + 'px'
 }
 
 create()

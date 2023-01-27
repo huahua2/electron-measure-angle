@@ -21,7 +21,7 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
 
   ipcMain.on('min', e=> mainWindow.minimize());
