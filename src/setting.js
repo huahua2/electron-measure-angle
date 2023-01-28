@@ -1,26 +1,3 @@
-//
-// const btn = document.querySelector('.btn_measure')
-// btn.addEventListener('click', function () {
-//   const input = document.querySelector("#inputAngle")
-//   let message = {
-//     startMeasure: true,
-//     radius: value.textContent,
-//     opacity: opacityValue.textContent
-//   }
-//   if (input.value.trim() !== '') {
-//     message.angle = Number(input.value)
-//   }
-//   if (inputColor1.value !== '') {
-//     message.lineColor1 = inputColor1.value
-//   }
-//
-//   if (inputColor2.value !== '') {
-//     message.lineColor2 = inputColor2.value
-//   }
-//   sendMsg(message)
-//   window.close()
-// })
-
 const value = document.querySelector("#value")
 const input = document.querySelector("#pi_input")
 value.textContent = input.value
@@ -120,25 +97,32 @@ inputColor2.addEventListener("input", (event) => {
 
 })
 
-const inputAngle = document.querySelector("#inputAngle")
+// const inputAngle = document.querySelector("#inputAngle")
+inputAngle.value = curAngle
+setWrapWidth()
+let _line90 = document.querySelector('.line_90')
+let _line270 = document.querySelector('.line_270')
 inputAngle.addEventListener("input", (event) => {
-      let _line90 = document.querySelector('.line_90')
-    let _line270 = document.querySelector('.line_270')
-    setLinePositionByAngle({ curEle: _line90, oppositeEle: _line270, deg: Number(event.target.value) })
+  setLinePositionByAngle({ curEle: _line90, oppositeEle: _line270, deg: Number(event.target.value) })
+  setWrapWidth()
+})
+inputAngle.addEventListener("blur", (event) => {
+  if (event.target.value === '') {
+    inputAngle.value = 0
+  }
+})
 
-  })
-
-function sendMsg (msg) {
-  console.log('sendMsg')
-  // popup ---> content
-  chrome.tabs.query({
-    active: true,
-    currentWindow: true
-  }, (tabs) => {
-
-    chrome.tabs.sendMessage(tabs[0].id, msg, res => {
-      console.log('popup=>content')
-      console.log(res)
-    })
-  })
-}
+// function sendMsg (msg) {
+//   console.log('sendMsg')
+//   // popup ---> content
+//   chrome.tabs.query({
+//     active: true,
+//     currentWindow: true
+//   }, (tabs) => {
+//
+//     chrome.tabs.sendMessage(tabs[0].id, msg, res => {
+//       console.log('popup=>content')
+//       console.log(res)
+//     })
+//   })
+// }

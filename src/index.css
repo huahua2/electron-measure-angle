@@ -40,7 +40,9 @@ body {
 ::selection {
   background: none;
 }
-
+#inputAngle::selection {
+  background: #338cf2;
+}
 .inner_circle {
   position: absolute;
   border: 2px solid rgba(255, 255, 255, 1);
@@ -83,6 +85,7 @@ body {
   padding-top: 12px;
   height: 1px;
   font-size: 10px;
+  cursor: default;
 }
 
 .measure-angle li:nth-of-type(10n) em {
@@ -193,7 +196,7 @@ body {
   cursor: move;
   display: flex;
   align-items: center;
-  padding-left: 6px;
+  padding-left: 8px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   box-sizing: border-box;
@@ -246,15 +249,16 @@ body {
 }
 
 .setting-pannel {
-  width: 150px;
-  height: 320px;
+  width: 120px;
+  height: auto;
   position: absolute;
   right: 10px;
   top: 40px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.8);
   -webkit-app-region: no-drag;
   padding: 20px;
   -webkit-user-drag: none;
+  border-radius: 10px;
 }
 
 #windows-op a {

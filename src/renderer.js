@@ -1,5 +1,7 @@
 // 默认半径
 let radius = 150
+// 当前度数
+let curAngle = 90
 // 90°在下面，false在上面
 const deg90InBottom = false
 
@@ -11,34 +13,6 @@ let moveCenter = {x: 0, y: 0}
 const BORDER_WIDTH = 92
 // 1mm == 3.77px
 const mmtoPX = 3.77
-
-
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//   if (request.radius) {
-//     radius = Number(request.radius)
-//     if (!request.startMeasure) {
-//       changeRadius()
-//     }
-//   }
-//   if (request.startMeasure) {
-//     changeRadius()
-//   }
-//   if (request.angle) {
-//     let _line90 = document.querySelector('.line_90')
-//     let _line270 = document.querySelector('.line_270')
-//     setLinePositionByAngle({ curEle: _line90, oppositeEle: _line270, deg: request.angle })
-//   }
-//   if (request.opacity !== undefined) {
-//     let _dragEle = document.querySelector('.measure-angle')
-//     _dragEle.style.border = `46px solid rgba(255, 255, 255, ${request.opacity})`
-//   }
-//   if (request.lineColor1) {
-//     changeLineColor(request.lineColor1)
-//   }
-//   if (request.lineColor2) {
-//     changeLineColor2(request.lineColor2)
-//   }
-// })
 
 // 计算里面小圆的大小
 function calInnerCircle () {
@@ -153,6 +127,11 @@ function bindOplineEvent() {
         const radian = Math.atan2(downY - center.y, downX - center.x)
         const deg = radian2Angle(radian)
         setLinePositionByAngle({ curEle: _line90, oppositeEle: _line270, deg })
+
+        if (inputAngle){
+          inputAngle.value = curAngle
+        }
+        setWrapWidth()
       }
       document.onmouseup = (e) => {
         _line90.style.removeProperty('height')
@@ -182,6 +161,11 @@ function bindOplineEvent() {
         const radian = Math.atan2(downY - center.y, downX - center.x)
         const deg = radian2Angle(radian)
         setLinePositionByAngle({ curEle: _line270, oppositeEle: _line90, deg })
+
+        if (inputAngle){
+          inputAngle.value = curAngle
+        }
+        setWrapWidth()
       }
       document.onmouseup = (e) => {
         _line270.style.removeProperty('height')
@@ -204,6 +188,12 @@ function setLinePositionByAngle ({ curEle, oppositeEle, deg}) {
   oppositeEle.style.transform = `rotate(${oppositeAngle}deg)`;
   oppositeEle.innerHTML = calcStateRotation(curDeg - 180)
   oppositeEle.style.height = `60px`;
+  if (curEle.className === 'line_90') {
+    curAngle = curDeg
+  } else {
+    curAngle = calcStateRotation(curDeg - 180)
+  }
+
 }
 
 function bindMeasureAngleEvent() {
@@ -337,9 +327,10 @@ function changeLineColor2(color) {
   const style = document.createElement('style');
   style.id = 'changeLineColor2'
 
-  const sCss = `.line_90,.line_270 {border-left: 1px solid ${color};} .line_270::after, .line_90::after {background: ${color}}`
+  const sCss = `.line_90,.line_270 {color:${color};border-left: 1px solid ${color};} .line_270::after, .line_90::after {background: ${color}; `
   style.innerHTML += sCss;
   document.head.appendChild(style);
+  inputAngle.style.color = `${color}`
 }
 
 function resetPos () {
@@ -358,6 +349,12 @@ function resetInnerCircle () {
 create()
 bindOplineEvent()
 bindMeasureAngleEvent()
+const inputAngle = document.querySelector("#inputAngle")
+const wrapAngle = document.querySelector("#wrapAngle")
+
+function setWrapWidth () {
+  wrapAngle.style.width = Number(inputAngle.value.length) * 40 + 'px'
+}
 
 window.addEventListener("resize", () => {
   // moveCenter.x = window.innerWidth / 2
