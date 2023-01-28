@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html draggable="false">
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
@@ -7,14 +7,21 @@
     <link href="index.css" rel="stylesheet">
     <title>角度测量</title>
   </head>
-  <body style="-webkit-app-region: drag;">
+  <body style="-webkit-app-region: drag;" draggable="false">
   <div class="title-bar">
-    <a id="btn_close">×</a>
-    <a id="btn_min">-</a>
+    <div id="mac-op">
+      <a id="btn_close">×</a>
+      <a id="btn_min">-</a>
+    </div>
+    <div id="windows-op">
+      <a id="btn_min">-</a>
+      <a id="btn_max">□</a>
+      <a id="btn_close">×</a>
+    </div>
   </div>
 
 
-  <div style="width: 150px; height: 320px; position:absolute; right: 0px; top: 40px; background: #ffffff; -webkit-app-region: no-drag;padding: 20px;display: block">
+  <div class="setting-pannel" draggable="false">
     <div>
       <p>圆半径:<output id="value"></output>px</p>
       <p><input id="pi_input" type="range" min="150" max="1000" step="1" value="150" /></p>

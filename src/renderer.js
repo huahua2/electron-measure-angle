@@ -7,6 +7,11 @@ const deg90InBottom = false
 let outCircleRotate = 0
 let moveCenter = {x: 0, y: 0}
 
+// 92是边框的宽度
+const BORDER_WIDTH = 92
+// 1mm == 3.77px
+const mmtoPX = 3.77
+
 
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //   if (request.radius) {
@@ -34,6 +39,19 @@ let moveCenter = {x: 0, y: 0}
 //     changeLineColor2(request.lineColor2)
 //   }
 // })
+
+// 计算里面小圆的大小
+function calInnerCircle () {
+  const WIDTH = radius * 2
+  // 里面圆的边框是2px
+  const innerCircleBorderWidth = 2
+  // 计算外圆内径
+  const innerCircleSizeMm = (WIDTH - BORDER_WIDTH) / mmtoPX
+  // 每12mm内径，里面圆的直径是2mm
+  const radio = innerCircleSizeMm / 12
+  // 减掉边框2px
+  return Number(radio * 2 * mmtoPX - innerCircleBorderWidth).toFixed(2)
+}
 
 function radian2Angle(radian) {
   let deg = radian * (deg90InBottom ? 180 : -180) / Math.PI
@@ -93,13 +111,13 @@ function create() {
       oLi += "<li></li>";
     }
   }
-  ;
 
   measureAngle.innerHTML = '<div class="inner_circle"></div><div class="line_wrap"><div class="container">' + "<ul>" + oLi + '</ul><div class="line_0"></div><div class="line_180"></div><div class="line_90"></div><div class="line_270"></div></div></div>';
 
   style.innerHTML += sCss;
   measureAngle.className = 'measure-angle'
   measureAngle.style.appRegion = 'no-drag'
+  measureAngle.draggable = false
   measureAngle.style.left = (window.innerWidth / 2 - radius) + 'px'
   measureAngle.style.top = (window.innerHeight / 2 - radius) + 'px'
   moveCenter.x = window.innerWidth / 2
@@ -107,7 +125,7 @@ function create() {
 
   document.head.appendChild(style);
   document.body.appendChild(measureAngle);
-
+  resetInnerCircle()
 }
 
 function bindOplineEvent() {
@@ -190,8 +208,6 @@ function setLinePositionByAngle ({ curEle, oppositeEle, deg}) {
 
 function bindMeasureAngleEvent() {
   let _dragEle = document.querySelector('.measure-angle')
-  let _actMove = false
-  let _actRotate = false
   let style = {}
   let curOutCircleRotate = 0
 
@@ -199,7 +215,8 @@ function bindMeasureAngleEvent() {
     if (e.type !== 'mousedown') {
       return
     }
-
+    let _actMove = false
+    let _actRotate = false
     // 按下位置
     const downX = e.clientX
     const downY = e.clientY
@@ -221,6 +238,8 @@ function bindMeasureAngleEvent() {
       console.log("Oh, rotate!");
     }
     document.onmousemove = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
       if (!_dragEle) {
         return;
       }
@@ -290,13 +309,12 @@ function changeRadius() {
   }
   const style = document.createElement('style');
   style.id = 'changeRadius'
-  // 92是边框的宽度
-  const BORDER_WIDTH = 92
   const WIDTH = radius * 2
   const sCss = `.measure-angle {display: block; width: ${WIDTH - BORDER_WIDTH}px; height: ${WIDTH - BORDER_WIDTH}px;}.measure-angle li { transform-origin: center ${radius}px; left: ${radius - 1}px; } .line_0,.line_90,.line_180,.line_270 { transform-origin: center ${radius}px; left: ${radius - 1}px; }`
   style.innerHTML += sCss;
   document.head.appendChild(style);
   resetPos()
+  resetInnerCircle()
 }
 
 function changeLineColor(color) {
@@ -330,11 +348,20 @@ function resetPos () {
   _dragEle.style.top = Number(moveCenter.y - radius) + 'px'
 }
 
+function resetInnerCircle () {
+  const size = calInnerCircle()
+  let circle = document.querySelector('.inner_circle')
+  circle.style.width = size + 'px'
+  circle.style.height = size + 'px'
+}
+
 create()
 bindOplineEvent()
 bindMeasureAngleEvent()
 
 window.addEventListener("resize", () => {
+  // moveCenter.x = window.innerWidth / 2
+  // moveCenter.y = window.innerHeight / 2
   resetPos()
 });
 
