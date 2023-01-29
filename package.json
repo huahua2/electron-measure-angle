@@ -1,8 +1,8 @@
 {
-  "name": "electron-measure-angle",
-  "productName": "角度测量",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "measure-angle",
+  "productName": "Measure Angle",
+  "version": "1.0.1",
+  "description": "角度测量App",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -24,6 +24,7 @@
     "electron": "^22.0.2"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.1.0"
   }
 }

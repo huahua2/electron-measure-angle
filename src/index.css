@@ -2,9 +2,11 @@
   margin: 0;
   padding: 0;
 }
+
 *:focus {
   outline: none;
 }
+
 html {
   height: 100%;
   border: 2px solid rgb(68, 68, 68);
@@ -40,9 +42,11 @@ body {
 ::selection {
   background: none;
 }
+
 #inputAngle::selection {
   background: #338cf2;
 }
+
 .inner_circle {
   position: absolute;
   border: 2px solid rgba(255, 255, 255, 1);
@@ -201,10 +205,12 @@ body {
   border-top-right-radius: 10px;
   box-sizing: border-box;
 }
+
 #mac-op {
   display: flex;
   align-items: center;
 }
+
 #windows-op {
   display: flex;
   align-items: center;
@@ -279,4 +285,24 @@ body {
 #windows-op #btn_close:hover {
   background: rgb(247, 19, 19);
   color: rgb(244, 241, 241);
+}
+
+#wrapAngle {
+  position: fixed;
+  top: 50px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 90px;
+  -webkit-app-region: no-drag;
+}
+
+#inputAngle {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 60px;
+  color: #52e925;
+  padding: 0 10px;
 }

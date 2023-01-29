@@ -357,8 +357,20 @@ function setWrapWidth () {
 }
 
 window.addEventListener("resize", () => {
-  // moveCenter.x = window.innerWidth / 2
-  // moveCenter.y = window.innerHeight / 2
+  moveCenter.x = window.innerWidth / 2
+  moveCenter.y = window.innerHeight / 2
   resetPos()
 });
 
+// 从缓存读取设置状态
+window.addEventListener('DOMContentLoaded', () => {
+  radius = document.querySelector("#radiusInput").value || 150
+  let _maEle = document.querySelector('.measure-angle')
+  const opacityValue = document.querySelector("#opacityValue")
+  _maEle.style.border = `46px solid rgba(255, 255, 255, ${opacityValue.value})`
+  const inputColor1 = document.querySelector("#inputColor1").value
+  const inputColor2 = document.querySelector("#inputColor2").value
+  changeRadius()
+  changeLineColor(inputColor1)
+  changeLineColor2(inputColor2)
+})

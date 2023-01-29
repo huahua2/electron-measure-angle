@@ -20,15 +20,15 @@
     </div>
   </div>
 
-  <div id="wrapAngle" style="position:fixed; top: 50px; left: 20px;background: rgba(255,255,255,0.8);padding: 10px; border-radius: 10px;min-width: 90px; -webkit-app-region: no-drag;">
-   <input id="inputAngle" min="0" type="number" style="width: 100%; border: none; background: transparent; font-size: 60px; color: #52e925;padding: 0 10px;" />
+  <div id="wrapAngle">
+   <input id="inputAngle" min="0" type="number"/>
   </div>
 
 
   <div class="setting-pannel" draggable="false">
     <div>
       <p>圆半径:<output id="value"></output>px</p>
-      <p><input id="pi_input" type="range" min="150" max="1000" step="1" value="150" /></p>
+      <p><input id="radiusInput" type="range" min="150" max="1000" step="1" value="150" /></p>
     </div>
     <div>
       <p>透明度:<output id="opacityValue"></output></p>
@@ -40,7 +40,6 @@
     <div>
       <p>竖线颜色:<input id="inputColor2" type="color" value="#1ae721" style="width: 120px" /></p>
     </div>
-<!--    <button class="btn_measure">开始测量</button>-->
   </div>
 
     <!-- You can also require other files to run in this process -->
