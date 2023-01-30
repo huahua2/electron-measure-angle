@@ -5,6 +5,9 @@ let curAngle = 90
 // 90°在下面，false在上面
 const deg90InBottom = false
 
+// 十字线长度比例 (0-1)0%-100%
+let lineRadio = 100
+
 // 外圈旋转度数
 let outCircleRotate = 0
 let moveCenter = {x: 0, y: 0}
@@ -18,7 +21,7 @@ const mmtoPX = 3.77
 function calInnerCircle () {
   const WIDTH = radius * 2
   // 里面圆的边框是2px
-  const innerCircleBorderWidth = 2
+  const innerCircleBorderWidth = 4
   // 计算外圆内径
   const innerCircleSizeMm = (WIDTH - BORDER_WIDTH) / mmtoPX
   // 每12mm内径，里面圆的直径是2mm
@@ -33,8 +36,12 @@ function calOplineLength () {
   const innerCircleSizeMm = (WIDTH - BORDER_WIDTH) / mmtoPX
   // 每12mm内径，线在圈内4mm
   const radio = innerCircleSizeMm / 12
+  let totalLength = radio * 4 * mmtoPX
+  if (lineRadio >= 0) {
+    totalLength = totalLength * (lineRadio / 100)
+  }
   // 圈边框是46，top22，那么线在圈内高度是24
-  return Number(radio * 4 * mmtoPX + 24).toFixed(0)
+  return Number(totalLength + 24).toFixed(0)
 }
 
 function radian2Angle(radian) {
@@ -372,7 +379,6 @@ function resetInnerCircle () {
 }
 
 create()
-changeLineLength()
 bindOplineEvent()
 bindMeasureAngleEvent()
 const inputAngle = document.querySelector("#inputAngle")
@@ -388,7 +394,7 @@ window.addEventListener("resize", () => {
   resetPos()
 });
 
-// 从缓存读取设置状态
+// 从缓存读取设置初始化状态
 window.addEventListener('DOMContentLoaded', () => {
   radius = document.querySelector("#radiusInput").value || 150
   let _maEle = document.querySelector('.measure-angle')
@@ -399,4 +405,12 @@ window.addEventListener('DOMContentLoaded', () => {
   changeRadius()
   changeLineColor(inputColor1)
   changeLineColor2(inputColor2)
+
+  const inputLineRadio = document.querySelector("#inputLineRadio")
+  lineRadio = inputLineRadio.value
+  changeLineLength()
+  inputLineRadio.addEventListener("input", (event) => {
+    lineRadio = Number(event.target.value)
+    changeLineLength()
+  })
 })

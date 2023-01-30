@@ -78,4 +78,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   })
 
+  const lineRadioValue = document.querySelector("#lineRadioValue")
+  const inputLineRadio = document.querySelector("#inputLineRadio")
+  inputLineRadio.value = store.get('lineRadio') || 100
+  lineRadioValue.textContent = inputLineRadio.value
+  inputLineRadio.addEventListener("input", (event) => {
+    if (event.target.value) {
+      store.set('lineRadio', event.target.value)
+      lineRadioValue.textContent = event.target.value
+    }
+  })
+
 })
