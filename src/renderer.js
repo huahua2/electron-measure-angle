@@ -27,6 +27,16 @@ function calInnerCircle () {
   return Number(radio * 2 * mmtoPX - innerCircleBorderWidth).toFixed(2)
 }
 
+// 计算操作线的长度
+function calOplineLength () {
+  const WIDTH = radius * 2
+  const innerCircleSizeMm = (WIDTH - BORDER_WIDTH) / mmtoPX
+  // 每12mm内径，线在圈内4mm
+  const radio = innerCircleSizeMm / 12
+  // 圈边框是46，top22，那么线在圈内高度是24
+  return Number(radio * 4 * mmtoPX + 24).toFixed(0)
+}
+
 function radian2Angle(radian) {
   let deg = radian * (deg90InBottom ? 180 : -180) / Math.PI
   // if (outCircleRotate > 0) {
@@ -182,12 +192,12 @@ function setLinePositionByAngle ({ curEle, oppositeEle, deg}) {
   const cssAngle = calCssAngle(curDeg)
   curEle.style.transform = `rotate(${cssAngle}deg)`;
   curEle.innerHTML = curDeg
-  curEle.style.height = `60px`;
+  // curEle.style.height = `60px`;
 
   const oppositeAngle = calOppositeAngle(cssAngle)
   oppositeEle.style.transform = `rotate(${oppositeAngle}deg)`;
   oppositeEle.innerHTML = calcStateRotation(curDeg - 180)
-  oppositeEle.style.height = `60px`;
+  // oppositeEle.style.height = `60px`;
   if (curEle.className === 'line_90') {
     curAngle = curDeg
   } else {
@@ -305,6 +315,21 @@ function changeRadius() {
   document.head.appendChild(style);
   resetPos()
   resetInnerCircle()
+  changeLineLength()
+}
+
+function changeLineLength () {
+  const length = calOplineLength()
+  const exist = document.getElementById('changeLineLength')
+  if (exist) {
+    exist.remove()
+  }
+  const style = document.createElement('style');
+  style.id = 'changeLineLength'
+
+  const sCss = `.line_0::after, .line_180::after, .line_270::after, .line_90::after {height: ${length}px};`
+  style.innerHTML += sCss;
+  document.head.appendChild(style);
 }
 
 function changeLineColor(color) {
@@ -347,6 +372,7 @@ function resetInnerCircle () {
 }
 
 create()
+changeLineLength()
 bindOplineEvent()
 bindMeasureAngleEvent()
 const inputAngle = document.querySelector("#inputAngle")

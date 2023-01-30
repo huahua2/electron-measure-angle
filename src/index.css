@@ -28,7 +28,7 @@ body {
 
 .measure-angle {
   box-sizing: content-box;
-  z-index: 99999;
+  z-index: 99;
   position: fixed;
   border: 46px solid rgba(222, 220, 220, 0.7);
   border-radius: 50%;
@@ -101,7 +101,7 @@ body {
 
 .line_0 {
   position: absolute;
-  height: 60px;
+  height: 46px;
   border-left: 1px solid var(--line-color1);
   width: 0px;
   left: 149px;
@@ -113,7 +113,7 @@ body {
 
 .line_180 {
   position: absolute;
-  height: 60px;
+  height: 46px;
   border-left: 1px solid var(--line-color1);
   width: 0px;
   left: 149px;
@@ -125,7 +125,7 @@ body {
 
 .line_90 {
   position: absolute;
-  height: 35px;
+  height: 21px;
   border-left: 1px solid var(--line-color2);
   width: 0px;
   left: 149px;
@@ -141,12 +141,12 @@ body {
 
 .line_90:hover {
   cursor: move;
-  height: 60px;
+  /*height: 60px;*/
 }
 
 .line_270 {
   position: absolute;
-  height: 35px;
+  height: 21px;
   border-left: 1px solid var(--line-color2);
   width: 0px;
   left: 149px;
@@ -162,7 +162,7 @@ body {
 
 .line_270:hover {
   cursor: move;
-  height: 60px;
+  /*height: 60px;*/
 }
 
 .line_270::after, .line_90::after {
@@ -171,7 +171,7 @@ body {
   background: var(--line-color2);
   border-radius: 3px;
   width: 5px;
-  height: 38px;
+  /*height: 24px;*/
   position: absolute;
   top: 22px;
   left: -3px;
@@ -183,7 +183,7 @@ body {
   background: var(--line-color1);
   border-radius: 3px;
   width: 5px;
-  height: 38px;
+  /*height: 38px;*/
   position: absolute;
   top: 22px;
   left: -3px;
@@ -265,6 +265,7 @@ body {
   padding: 20px;
   -webkit-user-drag: none;
   border-radius: 10px;
+  z-index: 100;
 }
 
 #windows-op a {
