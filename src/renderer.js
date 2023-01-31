@@ -5,7 +5,7 @@ let curAngle = 90
 // 90°在下面，false在上面
 const deg90InBottom = false
 
-// 十字线长度比例 (0-1)0%-100%
+// 十字线长度比例 0%-100%
 let lineRadio = 100
 
 // 外圈旋转度数
@@ -46,13 +46,11 @@ function calOplineLength () {
 
 function radian2Angle(radian) {
   let deg = radian * (deg90InBottom ? 180 : -180) / Math.PI
-  // if (outCircleRotate > 0) {
   if (deg90InBottom) {
     deg -= outCircleRotate
   } else {
     deg += outCircleRotate
   }
-  // }
   return Number(deg).toFixed(2)
 }
 
@@ -199,12 +197,10 @@ function setLinePositionByAngle ({ curEle, oppositeEle, deg}) {
   const cssAngle = calCssAngle(curDeg)
   curEle.style.transform = `rotate(${cssAngle}deg)`;
   curEle.innerHTML = curDeg
-  // curEle.style.height = `60px`;
 
   const oppositeAngle = calOppositeAngle(cssAngle)
   oppositeEle.style.transform = `rotate(${oppositeAngle}deg)`;
   oppositeEle.innerHTML = calcStateRotation(curDeg - 180)
-  // oppositeEle.style.height = `60px`;
   if (curEle.className === 'line_90') {
     curAngle = curDeg
   } else {
@@ -227,7 +223,6 @@ function bindMeasureAngleEvent() {
     // 按下位置
     const downX = e.clientX
     const downY = e.clientY
-    // _dragEle.style.transform = 'none'
     const bcr = _dragEle.getBoundingClientRect()
     style = { left: _dragEle.style.left.replace('px', ''), top: _dragEle.style.top.replace('px', '') }
     const center = {x: bcr.left + bcr.width / 2, y: bcr.top + bcr.height / 2}
@@ -235,14 +230,14 @@ function bindMeasureAngleEvent() {
     const dis = Math.sqrt((downX-center.x)*(downX-center.x) + (downY-center.y)*(downY-center.y));
     if(dis <= radius - 50){
       _actMove = true
-      console.log("yes move!");
+      // console.log("yes move!");
     }else{
       _actRotate = true
       const radian = Math.atan2(downY - center.y, downX - center.x)
       let deg = radian * 180 / Math.PI
       const curDeg = calcStateRotation(deg + 90)
       curOutCircleRotate = curDeg
-      console.log("Oh, rotate!");
+      // console.log("Oh, rotate!");
     }
     document.onmousemove = (e) => {
       e.preventDefault()
@@ -289,7 +284,6 @@ function bindMeasureAngleEvent() {
       if (_actMove) {
 
         const bcr = _dragEle.getBoundingClientRect()
-        // const center = {x: , y: bcr.top + bcr.height / 2
         moveCenter.x = bcr.left + bcr.width / 2
         moveCenter.y = bcr.top + bcr.height / 2
       }
