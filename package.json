@@ -1,7 +1,7 @@
 {
   "name": "measure-angle",
   "productName": "Measure Angle",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "角度测量App",
   "main": "src/main.js",
   "scripts": {

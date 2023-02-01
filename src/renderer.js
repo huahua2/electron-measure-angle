@@ -7,6 +7,8 @@ const deg90InBottom = false
 
 // 十字线长度比例 0%-100%
 let lineRadio = 100
+// 小圆比例（占大院内径的比例）
+let innerCircleRadio = 15
 
 // 外圈旋转度数
 let outCircleRotate = 0
@@ -17,7 +19,7 @@ const BORDER_WIDTH = 92
 // 1mm == 3.77px
 const mmtoPX = 3.77
 
-// 计算里面小圆的大小
+// 计算里面小圆的大小(暂时不用了，通过改变比例去算)
 function calInnerCircle () {
   const WIDTH = radius * 2
   // 里面圆的边框是2px
@@ -366,10 +368,27 @@ function resetPos () {
 }
 
 function resetInnerCircle () {
-  const size = calInnerCircle()
+  // const size = calInnerCircle()
+  // 大圆内径
+  const diameter = radius * 2 - 92
+  // 小圆内径 = 大圆内径 * innerCircleRadio
+  const size = diameter * (innerCircleRadio / 100)
   let circle = document.querySelector('.inner_circle')
   circle.style.width = size + 'px'
   circle.style.height = size + 'px'
+}
+
+function setInnerCircleStyle (color) {
+  const exist = document.getElementById('changeInnerCircleStyle')
+  if (exist) {
+    exist.remove()
+  }
+  const style = document.createElement('style');
+  style.id = 'changeInnerCircleStyle'
+
+  const sCss = `.inner_circle {border: 2px solid ${color};}`
+  style.innerHTML += sCss;
+  document.head.appendChild(style);
 }
 
 create()
@@ -396,6 +415,9 @@ window.addEventListener('DOMContentLoaded', () => {
   _maEle.style.border = `46px solid rgba(255, 255, 255, ${opacityValue.value})`
   const inputColor1 = document.querySelector("#inputColor1").value
   const inputColor2 = document.querySelector("#inputColor2").value
+
+  const inputInnerCircleRadio = document.querySelector("#inputInnerCircleRadio")
+  innerCircleRadio = Number(inputInnerCircleRadio.value)
   changeRadius()
   changeLineColor(inputColor1)
   changeLineColor2(inputColor2)
@@ -406,5 +428,21 @@ window.addEventListener('DOMContentLoaded', () => {
   inputLineRadio.addEventListener("input", (event) => {
     lineRadio = Number(event.target.value)
     changeLineLength()
+  })
+
+  // 改变小圆颜色
+  const innerCircleColor = document.querySelector("#innerCircleColor")
+  setInnerCircleStyle(innerCircleColor.value)
+  innerCircleColor.addEventListener("input", (event) => {
+    if (event.target.value) {
+      setInnerCircleStyle(event.target.value)
+    }
+  })
+  // 改变小圆比例
+  inputInnerCircleRadio.addEventListener("input", (event) => {
+    if (event.target.value) {
+      innerCircleRadio = Number(event.target.value)
+      resetInnerCircle()
+    }
   })
 })

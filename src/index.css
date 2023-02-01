@@ -256,17 +256,30 @@ body {
 }
 
 .setting-pannel {
-  width: 130px;
   height: auto;
   position: absolute;
   right: 10px;
   top: 40px;
   background: rgba(255, 255, 255, 0.8);
   -webkit-app-region: no-drag;
-  padding: 20px;
+  padding: 20px 0;
   -webkit-user-drag: none;
   border-radius: 10px;
   z-index: 100;
+}
+
+.setting-pannel div {
+  padding: 0 20px;
+  margin-bottom: 2px;
+}
+
+.setting-pannel p {
+  margin-bottom: 2px;
+}
+
+.setting-pannel .hr {
+  border-top: 1px solid #bcbcb9;
+  margin: 11px 0;
 }
 
 #windows-op a {

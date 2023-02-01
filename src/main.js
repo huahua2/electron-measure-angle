@@ -24,19 +24,7 @@ function createWindow () {
     transparent: true,
     frame: false,
     hasShadow: false,
-    alwaysOnTop: true,
-    // titleBarStyle: 'hidden',
-    // titleBarOverlay: true,
-    // 无标题时，在mac内，窗口将一直拥有位于左上的标准窗口控制器 (“traffic lights”)
-    // titleBarStyle: 'hidden',
-    // mac设置控制按钮在无边框窗口中的位置。
-    // trafficLightPosition: { x: 12, y: 18 },
-    // titleBarOverlay: {
-    //   y: 100,
-    //   color: '#2f3241',
-    //   symbolColor: '#74b1be',
-    //   height: 60
-    // }
+    alwaysOnTop: true
   })
 
   // and load the index.html of the app.
