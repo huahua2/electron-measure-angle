@@ -25,11 +25,14 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('windows-op').remove()
   }
 
-  document.getElementById('btn_close').addEventListener('click', ()=> {
+  document.getElementById('btn_close')?.addEventListener('click', ()=> {
     ipc.send('close');
   })
-  document.getElementById('btn_min').addEventListener('click', ()=> {
+  document.getElementById('btn_min')?.addEventListener('click', ()=> {
     ipc.send('min');
+  })
+  document.querySelector('.title-bar')?.addEventListener('dblclick', ()=> {
+    ipc.send('max');
   })
   document.getElementById('btn_max')?.addEventListener('click', ()=> {
     ipc.send('max');

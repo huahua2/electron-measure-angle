@@ -15,8 +15,8 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 2000,
     height: 2000,
-    minWidth: 800,  //最小宽度
-    minHeight: 800,   //最小高度
+    minWidth: 700,  //最小宽度
+    minHeight: 700,   //最小高度
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
@@ -24,7 +24,16 @@ function createWindow () {
     transparent: true,
     frame: false,
     hasShadow: false,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    titleBarStyle: 'hidden',
+    // mac设置控制按钮在无边框窗口中的位置。
+    titleBarOverlay: true,
+    trafficLightPosition: { x: 10, y: 7 },
+    titleBarOverlay: {
+      color: '#2f3241',
+      symbolColor: '#74b1be',
+      height: 30
+    }
   })
 
   // and load the index.html of the app.
