@@ -15,7 +15,7 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 2000,
     height: 2000,
-    minWidth: 700,  //最小宽度
+    minWidth: 900,  //最小宽度
     minHeight: 700,   //最小高度
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -27,13 +27,7 @@ function createWindow () {
     alwaysOnTop: true,
     titleBarStyle: 'hidden',
     // mac设置控制按钮在无边框窗口中的位置。
-    titleBarOverlay: true,
-    trafficLightPosition: { x: 10, y: 7 },
-    titleBarOverlay: {
-      color: '#2f3241',
-      symbolColor: '#74b1be',
-      height: 30
-    }
+    trafficLightPosition: { x: 10, y: 7 }
   })
 
   // and load the index.html of the app.
@@ -42,12 +36,18 @@ function createWindow () {
   // mainWindow.webContents.openDevTools()
 
 
+  let isMaximized = false
   ipcMain.on('min', e=> mainWindow.minimize());
   ipcMain.on('max', e=> {
-    if (mainWindow.isMaximized()) {
-      mainWindow.unmaximize()
+    if (isMaximized) {
+      // when transparent: true unmaximize is not working
+      // mainWindow.unmaximize()
+      mainWindow.setSize(900, 700)
+      mainWindow.center()
+      isMaximized = false
     } else {
       mainWindow.maximize()
+      isMaximized = true
     }
   });
   ipcMain.on('close', e=> mainWindow.close());

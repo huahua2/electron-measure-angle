@@ -20,9 +20,9 @@ window.addEventListener('DOMContentLoaded', () => {
     store = new Store({schema});
   }
   if (process.platform !== 'darwin') {
-    document.getElementById('mac-op').remove()
+    document.getElementById('mac-op')?.remove()
   } else {
-    document.getElementById('windows-op').remove()
+    document.getElementById('windows-op')?.remove()
   }
 
   document.getElementById('btn_close')?.addEventListener('click', ()=> {
