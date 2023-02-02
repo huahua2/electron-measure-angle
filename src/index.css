@@ -267,8 +267,10 @@ body {
   border-radius: 10px;
   z-index: 100;
 }
-
-.setting-pannel div {
+.setting-pannel-content {
+  display: none;
+}
+.setting-pannel div:not(.setting-pannel-content) {
   padding: 0 20px;
   margin-bottom: 2px;
 }
@@ -321,4 +323,22 @@ body {
   color: #52e925;
   padding: 0 10px;
   text-align: center;
+}
+
+#btn_expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12px;
+  padding: 4px 20px;
+}
+#btn_expand em{
+  color: #8a8a8a;
+  display: inline-block;
+}
+#btn_expand:hover {
+  background: #ebe9e9;
+}
+#btn_expand:hover em{
+  color: rgb(68, 68, 68);
 }

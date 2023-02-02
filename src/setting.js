@@ -52,3 +52,18 @@ inputAngle.addEventListener("blur", (event) => {
     inputAngle.value = 0
   }
 })
+let btn_expand = document.getElementById('btn_expand')
+let settingPanelContent = document.querySelector('.setting-pannel-content')
+btn_expand.addEventListener('click', function () {
+  const expand = settingPanelContent.getAttribute('expand')
+  if (expand) {
+    settingPanelContent.setAttribute('expand', '')
+    settingPanelContent.style.display = 'block'
+    btn_expand.querySelector('em').style.transform = 'rotate(-180deg)'
+
+  } else {
+    settingPanelContent.setAttribute('expand', 'true')
+    settingPanelContent.style.display = 'none'
+    btn_expand.querySelector('em').style.transform = ''
+  }
+})
