@@ -271,6 +271,7 @@ body {
   display: none;
 }
 .setting-pannel div:not(.setting-pannel-content) {
+  min-width: 130px;
   padding: 0 20px;
   margin-bottom: 2px;
 }
