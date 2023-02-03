@@ -10,7 +10,8 @@ module.exports = {
       name: '@electron-forge/maker-squirrel',
       config: {
         title: '角度测量',
-        iconUrl: 'http://192.168.0.148:8081/icon.ico',
+        // iconUrl: 'http://192.168.0.148:8081/icon.ico',
+        iconUrl: 'https://raw.githubusercontent.com/huahua2/electron-measure-angle/master/assets/icon.ico',
         setupIcon: './assets/icon.ico'
       },
     },
