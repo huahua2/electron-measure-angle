@@ -17,6 +17,7 @@ function createWindow () {
     height: 2000,
     minWidth: 900,  //最小宽度
     minHeight: 700,   //最小高度
+    icon: path.join(__dirname, '../assets/logo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
