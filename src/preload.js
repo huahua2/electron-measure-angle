@@ -116,4 +116,13 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   })
 
+  document.getElementById('btn_captrue')?.addEventListener('click', function () {
+    console.log('btn click')
+    ipc.send('screenshot', {})
+  })
+
+  ipc.on('captured', (e, imgData) => {
+    console.log('on captured')
+    document.getElementById('cap-img').src = imgData
+  })
 })

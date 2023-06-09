@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu, ipcMain} = require('electron')
+const {app, BrowserWindow, Menu, ipcMain, desktopCapturer} = require('electron')
 
 if (handleSquirrelEvent(app)) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
@@ -34,7 +34,7 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
 
   let isMaximized = false
@@ -52,7 +52,17 @@ function createWindow () {
     }
   });
   ipcMain.on('close', e=> mainWindow.close());
+  ipcMain.on('screenshot', () => {
+    console.log('截图')
+    desktopCapturer.getSources({types: ['window'], thumbnailSize: { width: 1920, height: 1080}}).then((sources) => {
+      let img = sources[0].thumbnail.toDataURL()
+      console.log(img)
+      mainWindow.webContents.send('captured', img)
+    })
+  })
 }
+
+
 
 function initStore() {
   const Store = require('electron-store');
